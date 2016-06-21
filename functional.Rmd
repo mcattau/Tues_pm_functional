@@ -9,14 +9,72 @@ output: html_document
 
 # If you want a numbered list in R markdown, you can use the same number and it'll render it with the correct numbers in order
 Start by putting up objectives/tasks that students will be working though:
-1. Import a raster — A lidar canopy height model 
 
-```{r import-CHM}
-CHM<-lidar/Teak_lidarCHM.tif
+Set the working directory and load packages
+```{r set-wd-load-packages}
+setwd("~/Documents/data/NEONDI-2016/Tues_pm_functional")
+library(raster)
+library(rhdf5)
+library(rgdal)
 ```
 
-For the CHM, set values == 0 to NA (not trees)
-Classify the raster according to some distribution – low medium and tall trees. This could be done using a histogram potentially or we could just decide that <2m is generally grasses / understory, <6m small trees,and the rest are tall trees. A function could import the desired thresholds. Visualize histogram/density and plot vertical cutoff lines.
+Import a raster — A lidar canopy height model (CHM) and set values == 0 to NA (not trees)
+
+```{r import-CHM-and-set-0-to-NA}
+chm <- raster("../NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarCHM.tif")
+
+# assign chm values of 0 to NA
+chm[chm==0] <- NA
+```
+
+Classify the raster: <9m is generally grasses / understory, <16m small trees,and the rest are tall trees. A function could import the desired thresholds. Visualize histogram/density and plot vertical cutoff lines.
+
+hist(chm)
+summary(chm)
+
+class.m <- c(0, 9, 1,
+             9, 16, 2,
+             16, 60, 3)
+class.m
+
+# reshape the object into a matrix with columns and rows
+rcl.m <- matrix(class.m, 
+                ncol=3, 
+                byrow=TRUE)
+rcl.m
+
+# reclassify the raster chm using the reclass function to create a new raster.
+chm.classify <- reclassify(chm, 
+                     rcl.m)
+
+# make room for a legend
+par(xpd = FALSE, mar=c(5.1, 4.1, 4.1, 4.5))
+# plot
+plot(chm.classify,
+     col=c("green","blue", "red"),
+     main="Classified CHM",
+     legend=F)
+# allow legend to plot outside of bounds
+par(xpd=TRUE)
+# create the legend
+legend((par()$usr[2] + 20), 4103300,  # set x,y legend location
+       legend = c("Grasses / understory", "Short trees", "Tall trees"),  # make sure the order matches the colors, next
+       fill = c("green", "blue", "red"),
+       bty="n") # turn off border
+```
+
+
+Export Classified Raster
+```{r export, eval=FALSE}
+# export geotiff
+writeRaster(chm.classify,
+            filename="../outputs/TEAK/Classified_CHM.tif",
+            format="GTiff",
+            options="COMPRESS=LZW",
+            overwrite = TRUE,
+            NAflag = -9999)
+```
+
 Take the chm and create a hillshade (http://neon-workwithdata.github.io/neon-data-institute-2016/R/create-hillshade-R/)
 PLOT - layer the classified raster on top of the hillshade, add a legend for each “class” - legends are super tricky to simplifying this process with a function would be good.  see: http://neon-workwithdata.github.io/neon-data-institute-2016/R/classify-by-threshold-R/  for my take on forcing a legend outside of the plot area using par settings. You may have other better forms of magic to make this work well. :)
 Export the plot figure to a pdf – publishable
