@@ -70,7 +70,7 @@ Plot it
 
 ```{r plot}
 # make room for a legend
-par(xpd = FALSE, mar=c(5.1, 4.1, 4.1, 4.5))
+par(xpd = FALSE, mar=c(5.1, 4.1, 4.1, 4.5)) # xpd = FALSE means don't plot outside plot boundaries
 # plot
 plot(chm.classify,
      col=c("green","blue", "red"),
@@ -79,7 +79,10 @@ plot(chm.classify,
 # allow legend to plot outside of bounds
 par(xpd=TRUE)
 # create the legend
-legend((par()$usr[2] + 20), 4103300,  # set x,y legend location
+legend.x<-par()$usr[2] + 20
+                 # this is the second thing, which is the rightmost bond on x
+legend.y<-par()$usr[4]+50-(abs(par()$usr[3]-par()$usr[4])/2)
+legend(legend.x, legend.y,
        legend = c("Grasses / understory", "Short trees", "Tall trees"),  # make sure the order matches the colors, next
        fill = c("green", "blue", "red"),
        bty="n") # turn off border
