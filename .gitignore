@@ -2,3 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
+
+*.html
+*.tif
+*.pdf
+*sessionInfo.txt
+.DS_Store
