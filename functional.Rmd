@@ -77,8 +77,10 @@ legend((par()$usr[2] + 20), 4103300,  # set x,y legend location
        legend = c("Grasses / understory", "Short trees", "Tall trees"),  # make sure the order matches the colors, next
        fill = c("green", "blue", "red"),
        bty="n") # turn off border
+par(xpd=FALSE)
 ```
-```
+
+
 
 
 
