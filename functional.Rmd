@@ -27,11 +27,22 @@ chm <- raster("../NEONdata/D17-California/TEAK/2013/lidar/TEAK_lidarCHM.tif")
 chm[chm==0] <- NA
 ```
 
-Classify the raster: <9m is generally grasses / understory, <16m small trees,and the rest are tall trees. A function could import the desired thresholds. Visualize histogram/density and plot vertical cutoff lines.
+Visualize histogram/density and plot vertical cutoff lines.
 
-hist(chm)
+```{r hist-and-cutoffs}
+
+#inspect data
 summary(chm)
+# select thresholds 9 (1st qu) and 16 (Median)
+hist(chm)
+abline(v=9)
+abline(v=16)
+```
 
+Classify the raster: <9m is generally grasses / understory, <16m small trees, and the rest are tall trees. A function could import the desired thresholds. 
+
+
+```{r classify}
 class.m <- c(0, 9, 1,
              9, 16, 2,
              16, 60, 3)
@@ -47,6 +58,11 @@ rcl.m
 chm.classify <- reclassify(chm, 
                      rcl.m)
 
+```
+
+Plot it
+
+```{r plot}
 # make room for a legend
 par(xpd = FALSE, mar=c(5.1, 4.1, 4.1, 4.5))
 # plot
@@ -62,6 +78,9 @@ legend((par()$usr[2] + 20), 4103300,  # set x,y legend location
        fill = c("green", "blue", "red"),
        bty="n") # turn off border
 ```
+```
+
+
 
 
 Export Classified Raster
