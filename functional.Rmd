@@ -33,8 +33,8 @@ summary(chm)
 # select thresholds 9 (1st qu) and 16 (Median)
 density(chm)
 hist(chm)
-abline(v=9)
-abline(v=16)
+abline(v=c(9,16), col="red")
+
 ```
 
 Classify the raster: <9m is generally grasses / understory, <16m small trees, and the rest are tall trees. A function could import the desired thresholds. 
@@ -56,6 +56,9 @@ rcl.m
 chm.classify <- reclassify(chm, 
                      rcl.m)
 
+# look hist w function
+hist(chm)
+abline(v=rcl.m[,2], col="red")
 ```
 
 Plot it
