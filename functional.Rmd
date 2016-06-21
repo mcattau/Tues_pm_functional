@@ -59,6 +59,11 @@ chm.classify <- reclassify(chm,
 # look hist w function
 hist(chm)
 abline(v=rcl.m[,2], col="red")
+
+pdf(file="TEAK_CHM_Density_w_breaks", width=6, height=7)
+hist(chm)
+abline(v=rcl.m[,2], col="red")
+dev.off()
 ```
 
 Plot it
