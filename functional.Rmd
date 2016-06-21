@@ -7,15 +7,12 @@ output: html_document
 
 ## Objectives
 
-# If you want a numbered list in R markdown, you can use the same number and it'll render it with the correct numbers in order
-Start by putting up objectives/tasks that students will be working though:
-
 Set the working directory and load packages
 ```{r set-wd-load-packages}
 setwd("~/Documents/data/NEONDI-2016/Tues_pm_functional")
 library(raster)
-library(rhdf5)
-library(rgdal)
+# library(rhdf5)
+# library(rgdal)
 ```
 
 Import a raster — A lidar canopy height model (CHM) and set values == 0 to NA (not trees)
@@ -34,6 +31,7 @@ Visualize histogram/density and plot vertical cutoff lines.
 #inspect data
 summary(chm)
 # select thresholds 9 (1st qu) and 16 (Median)
+density(chm)
 hist(chm)
 abline(v=9)
 abline(v=16)
@@ -79,11 +77,6 @@ legend((par()$usr[2] + 20), 4103300,  # set x,y legend location
        bty="n") # turn off border
 par(xpd=FALSE)
 ```
-
-
-
-
-
 
 Export Classified Raster
 ```{r export, eval=FALSE}
