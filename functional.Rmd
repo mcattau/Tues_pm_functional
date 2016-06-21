@@ -76,6 +76,7 @@ plot(chm.classify,
      col=c("green","blue", "red"),
      main="Classified CHM",
      legend=F)
+
 # allow legend to plot outside of bounds
 par(xpd=TRUE)
 # create the legend
@@ -99,6 +100,19 @@ writeRaster(chm.classify,
             overwrite = TRUE,
             NAflag = -9999)
 ```
+
+Create new file that has session info in there
+
+```{r session_info}
+# Make session info 
+
+sink(paste0(format(Sys.time(), "%Y-%m-%d_%H%M%S"),
+                             "_sessionInfo.txt"))
+sessionInfo()
+sink()
+
+```
+
 
 Take the chm and create a hillshade (http://neon-workwithdata.github.io/neon-data-institute-2016/R/create-hillshade-R/)
 PLOT - layer the classified raster on top of the hillshade, add a legend for each “class” - legends are super tricky to simplifying this process with a function would be good.  see: http://neon-workwithdata.github.io/neon-data-institute-2016/R/classify-by-threshold-R/  for my take on forcing a legend outside of the plot area using par settings. You may have other better forms of magic to make this work well. :)

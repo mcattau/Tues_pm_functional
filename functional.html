@@ -189,6 +189,7 @@ plot(chm.classify,
      col=c(&quot;green&quot;,&quot;blue&quot;, &quot;red&quot;),
      main=&quot;Classified CHM&quot;,
      legend=F)
+
 # allow legend to plot outside of bounds
 par(xpd=TRUE)
 # create the legend
@@ -209,6 +210,31 @@ writeRaster(chm.classify,
             options=&quot;COMPRESS=LZW&quot;,
             overwrite = TRUE,
             NAflag = -9999)</code></pre>
+<p>Create new file that has session info in there</p>
+<pre class="r"><code># Make session info 
+
+sink(paste0(format(Sys.time(), &quot;%Y-%m-%d_%H%M%S&quot;),
+                             &quot;_sessionInfo.txt&quot;))
+sessionInfo()</code></pre>
+<pre><code>## R version 3.3.0 (2016-05-03)
+## Platform: x86_64-apple-darwin13.4.0 (64-bit)
+## Running under: OS X 10.11.5 (El Capitan)
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] raster_2.5-8 sp_1.2-3    
+## 
+## loaded via a namespace (and not attached):
+##  [1] magrittr_1.5    rgdal_1.1-10    formatR_1.4     tools_3.3.0    
+##  [5] htmltools_0.3.5 yaml_2.1.13     Rcpp_0.12.5     stringi_1.1.1  
+##  [9] rmarkdown_0.9.6 grid_3.3.0      knitr_1.13      stringr_1.0.0  
+## [13] digest_0.6.9    lattice_0.20-33 evaluate_0.9</code></pre>
+<pre class="r"><code>sink()</code></pre>
 <p>Take the chm and create a hillshade (<a href="http://neon-workwithdata.github.io/neon-data-institute-2016/R/create-hillshade-R/" class="uri">http://neon-workwithdata.github.io/neon-data-institute-2016/R/create-hillshade-R/</a>) PLOT - layer the classified raster on top of the hillshade, add a legend for each “class” - legends are super tricky to simplifying this process with a function would be good. see: <a href="http://neon-workwithdata.github.io/neon-data-institute-2016/R/classify-by-threshold-R/" class="uri">http://neon-workwithdata.github.io/neon-data-institute-2016/R/classify-by-threshold-R/</a> for my take on forcing a legend outside of the plot area using par settings. You may have other better forms of magic to make this work well. :) Export the plot figure to a pdf – publishable Export the classified raster as a geotiff with NaFlagg = -9999 to an outputs folder.</p>
 </div>
 
