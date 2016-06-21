@@ -103,7 +103,7 @@ writeRaster(chm.classify,
 
 Create new file that has session info in there
 
-```{r session_info}
+```{r session_info, overwrite=TRUE}
 # Make session info 
 
 sink(paste0(format(Sys.time(), "%Y-%m-%d_%H%M%S"),
